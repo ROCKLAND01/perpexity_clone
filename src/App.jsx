@@ -40,7 +40,7 @@ const App = () => {
     if (!isSignedIn || !user) return;
     try {
       console.log(`Fetching history for: ${user.id}`);
-      const res = await fetch(`http://localhost:3001/api/chats/${user.id}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URI}/api/chats/${user.id}`);
       if (res.ok) {
         const data = await res.json();
         console.log(`Received ${data.length} chats`);
@@ -70,7 +70,7 @@ const App = () => {
   // Load a specific chat
   const handleLoadChat = async (chatId) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/chats/${user.id}/${chatId}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URI}/api/chats/${user.id}/${chatId}`);
       if (res.ok) {
         const chat = await res.json();
         setHistory(chat.messages || []);
@@ -99,7 +99,7 @@ const App = () => {
     const tempHistory = [...history, newContextMessage];
 
     try {
-      const response = await fetch('http://localhost:3001/api/chat', {
+      const response = await fetch(`${import.meta.env.VITE_API_URI}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query, history: tempHistory }),
@@ -177,7 +177,7 @@ const App = () => {
       // Save to DB
       if (isSignedIn && user) {
         try {
-          const saveRes = await fetch('http://localhost:3001/api/chats/save', {
+          const saveRes = await fetch(`${import.meta.env.VITE_API_URI}/api/chats/save`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
